@@ -6,11 +6,13 @@ from django.shortcuts import HttpResponse, render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaulttags import register
 from django.db import transaction
-import json
 from broadcast_conf import WxPayConf_pub
-import time
 import OpenSSL
-import base64,zlib
+import base64
+import zlib
+import json
+import time
+import os,sys,commands
 # Create your views here.
 
 
@@ -83,18 +85,34 @@ class TLSSigAPI:
         fix_str = self.__encode_to_fix_str(m)
         pk_loaded = self.__get_pri_key()
         sig_field = OpenSSL.crypto.sign(pk_loaded, fix_str, "sha256");
-        sig_field_base64 = base64.b64encode(sig_field)
-        m["TLS.sig"] = sig_field_base64
-        json_str = json.dumps(m)
-        sig_cmpressed = zlib.compress(json_str)
-        base64_sig = base64_encode_url(sig_cmpressed)
-        return base64_sig 
+        # sig_field_base64 = base64.b64encode(sig_field)
+        # m["TLS.sig"] = sig_field_base64
+        # json_str = json.dumps(m)
+        # sig_cmpressed = zlib.compress(json_str)
+        # base64_sig = base64_encode_url(sig_cmpressed)
+        # return base64_sig 
 
+
+def get_user_sig(user_id):
+	sig_user_id = WxPayConf_pub.USER_SIG_PREFIX + str(user_id)
+	current_path = os.getcwd()
+	sig_record_file_name = "sig_record_file_%s" % sig_user_id
+	commands.getoutput("rm -rf %s" % sig_record_file_name)
+	commands.getoutput(current_path+"/tls_licence_tools gen ec_key.pem %s %d %s" % (sig_record_file_name,WxPayConf_pub.SDK_APPID,sig_user_id))
+	result = commands.getoutput("cat %s" % sig_record_file_name )
+	commands.getoutput("rm -rf %s" % sig_record_file_name)
+	return result
 
 def see_me(request):
 	response = {}
+	result = get_user_sig(5)
+	print result
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+
+def a(request):
+	response = {}
 	api = TLSSigAPI(WxPayConf_pub.SDK_APPID, WxPayConf_pub.ECDSA_PRI_KEY)
-	# api = TLSSigAPI(WxPayConf_pub.SDK_APPID, WxPayConf_pub.ECDSA_PRI_KEY)
+	# # api = TLSSigAPI(WxPayConf_pub.SDK_APPID, WxPayConf_pub.ECDSA_PRI_KEY)
 	sig = api.tls_gen_sig("xiaojun")
-	print sig
+	# print sig
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))

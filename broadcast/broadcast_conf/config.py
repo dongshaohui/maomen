@@ -16,4 +16,5 @@ ApdVbXsTIs9Sgn7Rdqghx+OhRANCAARfepfnAwnPyCfpIeqttusbc2nMdWqXvH5Q
 6Rx1U4EuVznT2nC22WHL4ZkdKOj6IsaUNdWvLfeRVSEKGNPoD0Cr
 -----END PRIVATE KEY-----
 """
-	
+	USER_SIG_PREFIX = "maomen_test_"
+	# USER_SIG_PREFIX = "maomen_product_"

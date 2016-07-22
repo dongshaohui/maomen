@@ -8,4 +8,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test/see_me','broadcast.views.see_me'),
+    url(r'^a/','broadcast.views.a'),
 )
