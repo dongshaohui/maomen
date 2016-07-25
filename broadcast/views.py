@@ -123,7 +123,7 @@ def refresh_userSig(request):
 	response['message'] = 'OK'
 	response['data'] = {}	
 	response['data']['user_sig'] = user_sig
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 ###########################################
 #
@@ -147,7 +147,7 @@ def gift_list(request):
 		temp_gift_record['name'] = gift.name
 		response['data'].append(temp_gift_record)
 
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 @csrf_exempt
 def send_gift(request):
@@ -185,7 +185,7 @@ def send_gift(request):
 
 	response['status'] = 0
 	response['message'] = 'OK'
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 ###########################################
 #
@@ -226,7 +226,7 @@ def other_profile(request):
 	response['data']['sex'] = current_user.sex
 	response['data']['name'] = current_user.name
 	response['data']['tim_id'] = TencentCloudUsreInfo.objects.get(user=current_user).tim_id
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 @csrf_exempt
 def self_profile(request):
@@ -263,7 +263,7 @@ def self_profile(request):
 	response['data']['user']['tim_id'] = TencentCloudUsreInfo.objects.get(user=current_user).tim_id
 	response['data']['account'] = Account.objects.get(user=current_user).amount
 	response['data']['account_verson'] = 10 # ?????
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))	
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
 
 @csrf_exempt
 def user_update(request):
@@ -314,7 +314,7 @@ def user_update(request):
 	current_user.save()
 	response['status'] = 0
 	response['message'] = 'OK'	
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))	
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
 
 ###########################################
 #
@@ -349,7 +349,7 @@ def create_channel(request):
 
 	response['status'] = 0
 	response['message'] = 'OK'	
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))		
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")		
 
 
 # 关闭频道直播
@@ -377,7 +377,7 @@ def close_channel(request):
 
 	response['status'] = 0
 	response['message'] = 'OK'	
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))		
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")		
 
 # 获取下一次用户直播的频道号
 @csrf_exempt
@@ -396,7 +396,7 @@ def get_next_broadcast_channel(request):
 	response['message'] = 'OK'	
 	response['data'] = {}
 	response['data']['channel_id'] = next_broadcast_channel.channel_id
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))		
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")		
 
 # 获取房间当前直播人数
 @csrf_exempt
@@ -414,7 +414,7 @@ def get_audience_num(request):
 	response['message'] = 'OK'		
 	response['data'] = {}
 	response['data']['audience_num'] = current_channel.audience_num
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))		
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")		
 
 # 获取直播列表
 @csrf_exempt
@@ -444,7 +444,7 @@ def get_channel_list(request):
 
 		response['data'].append(temp_channel_data)
 	# response['data']['audience_num'] = current_channel.audience_num
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 # 添加喊麦
 @csrf_exempt
@@ -478,7 +478,7 @@ def add_channel_interact(request):
 	Interact.objects.create(channel=current_channel,user=current_user,position=pos)
 	response['status'] = 0
 	response['message'] = 'OK'	
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 # 删除喊麦（离麦）
 @csrf_exempt
@@ -513,7 +513,7 @@ def delete_channel_interact(request):
 
 	response['status'] = 0
 	response['message'] = 'OK'	
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 # 用户进入直播间
 @csrf_exempt
@@ -561,7 +561,7 @@ def add_channel_view_user(request):
 		temp_interact_record['user']['tim_id'] = TencentCloudUsreInfo.objects.get(user=temp_interact_record_user).tim_id
 
 		response['data']['interact'].append(temp_interact_record)
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 
 # 用户离开直播间
@@ -593,7 +593,7 @@ def delete_channel_view_user(request):
 
 	response['status'] = 0
 	response['message'] = 'OK'	
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 # 获取直播间人员列表
 @csrf_exempt
@@ -621,4 +621,4 @@ def channel_user_list(request):
 		temp_view_user_record['name'] = view_user.user.name
 		response['data'].append(temp_view_user_record)
 	
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
