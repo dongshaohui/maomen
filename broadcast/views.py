@@ -23,7 +23,7 @@ def get_user_sig(user_id):
 	print comds
 	commands.getoutput(current_path+"/tls_licence_tools gen ec_key.pem %s %d %s" % (sig_record_file_name,WxPayConf_pub.SDK_APPID,sig_user_id))
 	result = commands.getoutput("cat %s" % sig_record_file_name )
-	# commands.getoutput("rm -rf %s" % sig_record_file_name)
+	commands.getoutput("rm -rf %s" % sig_record_file_name)
 	return result
 
 def see_me(request):
