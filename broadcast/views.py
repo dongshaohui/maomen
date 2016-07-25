@@ -20,9 +20,10 @@ def get_user_sig(user_id):
 	sig_record_file_name = "sig_record_file_%s" % sig_user_id
 	commands.getoutput("rm -rf %s" % sig_record_file_name)
 	comds = current_path+"/tls_licence_tools gen ec_key.pem %s %d %s" % (sig_record_file_name,WxPayConf_pub.SDK_APPID,sig_user_id)
+	print comds
 	commands.getoutput(current_path+"/tls_licence_tools gen ec_key.pem %s %d %s" % (sig_record_file_name,WxPayConf_pub.SDK_APPID,sig_user_id))
 	result = commands.getoutput("cat %s" % sig_record_file_name )
-	commands.getoutput("rm -rf %s" % sig_record_file_name)
+	# commands.getoutput("rm -rf %s" % sig_record_file_name)
 	return result
 
 def see_me(request):
@@ -92,8 +93,8 @@ def third_party(request):
 	if len(users) > 0:
 		new_user = users[0]
 		new_tim_id = TencentCloudUsreInfo.objects.get(user=new_user).tim_id
-		new_user_sig_id = TencentCloudUsreInfo.objects.get(user=new_user).user_sig
-		new_user_sig = get_user_sig(new_user.id)
+		new_user_sig_id = WxPayConf_pub.USER_SIG_PREFIX + (str)(new_user.id)
+		new_user_sig = TencentCloudUsreInfo.objects.get(user=new_user).user_sig
 	else:
 		# 创建新用户
 		new_user = User.objects.create(auth_type=auth_type,third_party_id=third_party_id,
