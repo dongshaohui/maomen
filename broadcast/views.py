@@ -420,7 +420,7 @@ def get_audience_num(request):
 @csrf_exempt
 def get_channel_list(request):
 	response = {}	
-	all_channels = Channel.objects.all()
+	all_channels = Channel.objects.filter(channel_status=1)
 	response['status'] = 0
 	response['message'] = 'OK'		
 	response['data'] = []
