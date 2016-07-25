@@ -16,5 +16,12 @@ ApdVbXsTIs9Sgn7Rdqghx+OhRANCAARfepfnAwnPyCfpIeqttusbc2nMdWqXvH5Q
 6Rx1U4EuVznT2nC22WHL4ZkdKOj6IsaUNdWvLfeRVSEKGNPoD0Cr
 -----END PRIVATE KEY-----
 """
-	USER_SIG_PREFIX = "maomen_test_"
-	# USER_SIG_PREFIX = "maomen_product_"
+	USER_SIG_PREFIX = "maomen_test_" # 测试
+	# USER_SIG_PREFIX = "maomen_product_" # 生产
+	
+	TIM_PREFIX = "maomao_test_" # 测试
+	# TIM_PREFIX = "maomao_product_" # 生产
+
+	# 预留的频道数量
+	RESERVED_CHANNEL_NUMBER = 1000 # 测试
+	# RESERVED_CHANNEL_NUMBER = 3000 # 生产
