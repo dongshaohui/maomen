@@ -629,11 +629,11 @@ def channel_user_list(request):
 	response['data'] = []
 	for view_user in UserChannelRecord.objects.filter(channel=current_channel):
 		temp_view_user_record = {}
-		temp_view_user_record['city'] = view_user.city
-		temp_view_user_record['user_id'] = view_user.id
-		temp_view_user_record['avatar'] = view_user.avatar
-		temp_view_user_record['sex'] = view_user.sex
-		temp_view_user_record['name'] = view_user.name
+		temp_view_user_record['city'] = view_user.user.city
+		temp_view_user_record['user_id'] = view_user.user.id
+		temp_view_user_record['avatar'] = view_user.user.avatar
+		temp_view_user_record['sex'] = view_user.user.sex
+		temp_view_user_record['name'] = view_user.user.name
 		response['data'].append(temp_view_user_record)
 	
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
