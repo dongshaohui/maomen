@@ -454,20 +454,10 @@ def add_channel_interact(request):
 	user_id = None
 	pos = None
 
-	if 'channel_id' in request.POST:
-		channel_id = int(request.POST['channel_id'])
-	elif 'channel_id' in request.GET:
-		channel_id = int(request.GET['channel_id'])
-	
-	if 'user_id' in request.POST:
-		user_id = int(request.POST['user_id'])
-	elif 'user_id' in request.GET:
-		user_id = int(request.GET['user_id'])
-
-	if 'pos' in request.POST:
-		pos = int(request.POST['pos'])
-	elif 'pos' in request.GET:
-		pos = int(request.GET['pos'])
+	received_json_data = json.loads(request.body)
+	channel_id = received_json_data['channel_id']
+	user_id = received_json_data['user_id']
+	pos = int(received_json_data['pos'])
 
 	current_user = User.objects.get(id=user_id)
 	current_channel = Channel.objects.get(channel_id=channel_id)
@@ -489,20 +479,10 @@ def delete_channel_interact(request):
 	user_id = None
 	pos = None
 
-	if 'channel_id' in request.POST:
-		channel_id = int(request.POST['channel_id'])
-	elif 'channel_id' in request.GET:
-		channel_id = int(request.GET['channel_id'])
-	
-	if 'user_id' in request.POST:
-		user_id = int(request.POST['user_id'])
-	elif 'user_id' in request.GET:
-		user_id = int(request.GET['user_id'])
-
-	if 'pos' in request.POST:
-		pos = int(request.POST['pos'])
-	elif 'pos' in request.GET:
-		pos = int(request.GET['pos'])
+	received_json_data = json.loads(request.body)
+	channel_id = received_json_data['channel_id']
+	user_id = received_json_data['user_id']
+	pos = int(received_json_data['pos'])
 
 	current_user = User.objects.get(id=user_id)
 	current_channel = Channel.objects.get(channel_id=channel_id)
