@@ -64,7 +64,7 @@ def third_party(request):
 	avatar = received_json_data['avatar']
 	city = received_json_data['city']
 	city = received_json_data['city']
-	
+
 	users = User.objects.filter(third_party_id=third_party_id)
 	new_user = None
 	new_tim_id = None
@@ -100,7 +100,7 @@ def third_party(request):
 	response['data']['user_sig_id'] = new_user_sig_id
 	response['data']['user_sig'] = new_user_sig
 	response['data']['tim_id'] = new_tim_id
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 # 刷新user_sig
 @csrf_exempt
@@ -273,30 +273,38 @@ def user_update(request):
 	avatar = None
 	sex = None
 	city = None
-	if 'user_id' in request.GET:
-		user_id = int(request.GET['user_id'])
-	elif 'user_id' in request.POST:
-		user_id = int(request.POST['user_id'])
+	received_json_data = json.loads(request.body)
 
-	if 'name' in request.GET:
-		name = request.GET['name']
-	elif 'name' in request.POST:
-		name = request.POST['name']
+	user_id = received_json_data['user_id']
+	name = received_json_data['name']
+	avatar = received_json_data['avatar']
+	sex = received_json_data['sex']
+	city = received_json_data['city']
 
-	if 'avatar' in request.GET:
-		avatar = request.GET['avatar']
-	elif 'avatar' in request.POST:
-		avatar = request.POST['avatar']
+	# if 'user_id' in request.GET:
+	# 	user_id = int(request.GET['user_id'])
+	# elif 'user_id' in request.POST:
+	# 	user_id = int(request.POST['user_id'])
 
-	if 'sex' in request.GET:
-		sex = int(request.GET['sex'])
-	elif 'sex' in request.POST:
-		sex = int(request.POST['sex'])
+	# if 'name' in request.GET:
+	# 	name = request.GET['name']
+	# elif 'name' in request.POST:
+	# 	name = request.POST['name']
 
-	if 'city' in request.GET:
-		city = request.GET['city']
-	elif 'city' in request.POST:
-		city = request.POST['city']
+	# if 'avatar' in request.GET:
+	# 	avatar = request.GET['avatar']
+	# elif 'avatar' in request.POST:
+	# 	avatar = request.POST['avatar']
+
+	# if 'sex' in request.GET:
+	# 	sex = int(request.GET['sex'])
+	# elif 'sex' in request.POST:
+	# 	sex = int(request.POST['sex'])
+
+	# if 'city' in request.GET:
+	# 	city = request.GET['city']
+	# elif 'city' in request.POST:
+	# 	city = request.POST['city']
 
 	current_user = User.objects.get(id=user_id)
 	current_user.name = name
@@ -322,34 +330,17 @@ def create_channel(request):
 	title = ""
 	cover = ""
 
-	if 'channel_id' in request.POST:
-		channel_id = int(request.POST['channel_id'])
-	elif 'channel_id' in request.GET:
-		channel_id = int(request.GET['channel_id'])
-	
-	if 'user_id' in request.POST:
-		user_id = int(request.POST['user_id'])
-	elif 'user_id' in request.GET:
-		user_id = int(request.GET['user_id'])
-
-	
-	current_user = User.objects.get(id=user_id)
-	current_channel = Channel.objects.get(channel_id=channel_id)
-
-
-	if 'title' in request.POST:
-		title = request.POST['title']
-	elif 'title' in request.GET:
-		title = request.GET['title']
-	# else:
-	# 	title = current_user.avatar
-
-	if 'cover' in request.POST:
-		cover = request.POST['cover']
-	elif 'cover' in request.GET:
-		cover = request.GET['cover']
+	received_json_data = json.loads(request.body)
+	channel_id = received_json_data['channel_id']
+	user_id = received_json_data['user_id']
+	if 'title' in received_json_data:
+		title = received_json_data['title']
+	if 'cover' in received_json_data:
+		cover = received_json_data['cover']
 	else:
 		cover = current_user.avatar
+	current_user = User.objects.get(id=user_id)
+	current_channel = Channel.objects.get(channel_id=channel_id)
 
 	current_channel.title = title
 	current_channel.cover = cover
