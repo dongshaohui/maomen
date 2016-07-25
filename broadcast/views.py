@@ -670,7 +670,7 @@ def delete_channel_view_user(request):
 		user_view_record.delete()
 		if current_channel.audience_num > 0:
 			current_channel.audience_num = current_channel.audience_num - 1
-    current_channel.save()
+	current_channel.save()
 
 	response['status'] = 0
 	response['message'] = 'OK'	
