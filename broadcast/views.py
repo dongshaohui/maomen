@@ -7,7 +7,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaulttags import register
 from django.db import transaction
 from broadcast_conf import WxPayConf_pub
-import OpenSSL
 import base64
 import zlib
 import json
@@ -85,20 +84,28 @@ def third_party(request):
 	else:
 		city = request.GET['city']
 
-	# 创建新用户
-	new_user = User.objects.create(auth_type=auth_type,third_party_id=third_party_id,
-		name=name,sex=sex,avatar=avatar,city=city)
+	users = User.objects.filter(third_party_id=third_party_id)
+	new_user = None
+	new_tim_id = None
 
-	# 创建新频道
-	new_channel = Channel.objects.create(user=new_user)
-	new_channel.channel_id = new_channel.id + WxPayConf_pub.RESERVED_CHANNEL_NUMBER
-	new_channel.save()
+	if len(users) > 0:
+		new_user = users[0]
+		new_tim_id = TencentCloudUsreInfo.objects.get(user=new_user)
+	else:
+		# 创建新用户
+		new_user = User.objects.create(auth_type=auth_type,third_party_id=third_party_id,
+			name=name,sex=sex,avatar=avatar,city=city)
 
-	new_user_sig_id = WxPayConf_pub.USER_SIG_PREFIX + (str)(new_user.id)
-	new_user_sig = get_user_sig(new_user.id)
-	new_tim_id = WxPayConf_pub.TIM_PREFIX + (str)(new_user.id)
-	new_tencent_user_info = TencentCloudUsreInfo.objects.create(user=new_user,
-		user_tencent_id=new_user_sig_id,user_sig=new_user_sig,tim_id=new_tim_id)
+		# 创建新频道
+		new_channel = Channel.objects.create(user=new_user)
+		new_channel.channel_id = new_channel.id + WxPayConf_pub.RESERVED_CHANNEL_NUMBER
+		new_channel.save()
+
+		new_user_sig_id = WxPayConf_pub.USER_SIG_PREFIX + (str)(new_user.id)
+		new_user_sig = get_user_sig(new_user.id)
+		new_tim_id = WxPayConf_pub.TIM_PREFIX + (str)(new_user.id)
+		new_tencent_user_info = TencentCloudUsreInfo.objects.create(user=new_user,
+			user_tencent_id=new_user_sig_id,user_sig=new_user_sig,tim_id=new_tim_id)
 
 	response['status'] = 0
 	response['message'] = 'OK'
