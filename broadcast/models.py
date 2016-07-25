@@ -73,7 +73,7 @@ class GiftRecord(models.Model):
 class TencentCloudUsreInfo(models.Model):
 	user = models.ForeignKey(User,verbose_name=u'对应用户',blank=True,null=True) # 用户
 	user_tencent_id = models.CharField(default='',verbose_name=u'用户腾讯云ID',max_length=255) # 用户腾讯云ID
-	user_sig = models.CharField(default='',verbose_name=u'腾讯云用户签名',max_length=255) # 腾讯云用户签名
+	user_sig = models.CharField(default='',verbose_name=u'腾讯云用户签名',max_length=5000) # 腾讯云用户签名
 	tim_id = models.CharField(default='',verbose_name=u'腾讯云用户标识',max_length=255) # 腾讯云用户标识
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	

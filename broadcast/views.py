@@ -159,7 +159,7 @@ def gift_list(request):
 		temp_gift_record = {}
 		temp_gift_record['price'] = gift.price
 		temp_gift_record['gift_id'] = gift.id
-		temp_gift_record['icon_url'] = gift.icon_url
+		temp_gift_record['icon_url'] = gift.url
 		temp_gift_record['name'] = gift.name
 		response['data'].temp_gift_record
 
