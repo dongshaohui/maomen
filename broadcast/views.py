@@ -100,6 +100,8 @@ def third_party(request):
 		new_user = User.objects.create(auth_type=auth_type,third_party_id=third_party_id,
 			name=name,sex=sex,avatar=avatar,city=city)
 
+		new_account = Account.objects.create(user=new_user)
+
 		# 创建新频道
 		new_channel = Channel.objects.create(user=new_user)
 		new_channel.channel_id = new_channel.id + WxPayConf_pub.RESERVED_CHANNEL_NUMBER
