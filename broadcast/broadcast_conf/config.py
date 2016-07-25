@@ -19,8 +19,8 @@ ApdVbXsTIs9Sgn7Rdqghx+OhRANCAARfepfnAwnPyCfpIeqttusbc2nMdWqXvH5Q
 	USER_SIG_PREFIX = "maomen_test_" # 测试
 	# USER_SIG_PREFIX = "maomen_product_" # 生产
 	
-	TIM_PREFIX = "maomao_test_" # 测试
-	# TIM_PREFIX = "maomao_product_" # 生产
+	TIM_PREFIX = "maomen_test_" # 测试
+	# TIM_PREFIX = "maomeo_product_" # 生产
 
 	# 预留的频道数量
 	RESERVED_CHANNEL_NUMBER = 1000 # 测试
