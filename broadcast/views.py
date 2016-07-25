@@ -56,36 +56,15 @@ def third_party(request):
 	avatar = None
 	city = None
 
-	if 'auth_type' in request.POST:
-		auth_type = request.POST['auth_type']
-	else:
-		auth_type = request.GET['auth_type']
-
-	if 'third_party_id' in request.POST:
-		third_party_id = request.POST['third_party_id']
-	else:
-		third_party_id = request.GET['third_party_id']
-
-	if 'name' in request.POST:
-		name = request.POST['name']
-	else:
-		name = request.GET['name']
-
-	if 'sex' in request.POST:
-		sex = int(request.POST['sex'])
-	else:
-		sex = int(request.GET['sex'])
-
-	if 'avatar' in request.POST:
-		avatar = request.POST['avatar']
-	else:
-		avatar = request.GET['avatar']
-
-	if 'city' in request.POST:
-		city = request.POST['city']
-	else:
-		city = request.GET['city']
-
+	received_json_data = json.loads(request.body)
+	auth_type = received_json_data['auth_type']
+	third_party_id = received_json_data['third_party_id']
+	name = received_json_data['name']
+	sex = received_json_data['sex']
+	avatar = received_json_data['avatar']
+	city = received_json_data['city']
+	city = received_json_data['city']
+	
 	users = User.objects.filter(third_party_id=third_party_id)
 	new_user = None
 	new_tim_id = None
