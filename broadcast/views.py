@@ -161,7 +161,7 @@ def gift_list(request):
 		temp_gift_record['gift_id'] = gift.id
 		temp_gift_record['icon_url'] = gift.url
 		temp_gift_record['name'] = gift.name
-		response['data'].temp_gift_record
+		response['data'].append(temp_gift_record)
 
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
