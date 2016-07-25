@@ -46,6 +46,7 @@ def a(request):
 #
 ###########################################
 
+@csrf_exempt
 def third_party(request):
 	response = {}
 	auth_type = None
@@ -123,6 +124,7 @@ def third_party(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
 # 刷新user_sig
+@csrf_exempt
 def refresh_userSig(request):
 	response = {}
 	user_id = None
@@ -150,6 +152,7 @@ def refresh_userSig(request):
 #
 ###########################################
 
+@csrf_exempt
 def gift_list(request):
 	response = {}
 	response['status'] = 0
@@ -167,7 +170,7 @@ def gift_list(request):
 
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
-
+@csrf_exempt
 def send_gift(request):
 	response = {}
 
@@ -212,6 +215,7 @@ def send_gift(request):
 ###########################################
 
 # 获取他人的个人信息
+@csrf_exempt
 def other_profile(request):
 	response = {}
 	target_user_id = None
@@ -245,7 +249,7 @@ def other_profile(request):
 	response['data']['tim_id'] = TencentCloudUsreInfo.objects.get(user=current_user).tim_id
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
-
+@csrf_exempt
 def self_profile(request):
 	response = {}
 	user_id = None
@@ -282,6 +286,7 @@ def self_profile(request):
 	response['data']['account_verson'] = 10 # ?????
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))	
 
+@csrf_exempt
 def user_update(request):
 	response = {}
 	user_id = None
@@ -330,6 +335,7 @@ def user_update(request):
 #
 ###########################################
 
+@csrf_exempt
 def create_channel(request):
 	response = {}
 	channel_id = None
@@ -377,6 +383,7 @@ def create_channel(request):
 
 
 # 关闭频道直播
+@csrf_exempt
 def close_channel(request):
 	response = {}
 	channel_id = None
@@ -403,6 +410,7 @@ def close_channel(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))		
 
 # 获取下一次用户直播的频道号
+@csrf_exempt
 def get_next_broadcast_channel(request):
 	response = {}
 
@@ -421,6 +429,7 @@ def get_next_broadcast_channel(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))		
 
 # 获取房间当前直播人数
+@csrf_exempt
 def get_audience_num(request):
 	response = {}	
 	channel_id = None
@@ -438,6 +447,7 @@ def get_audience_num(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))		
 
 # 获取直播列表
+@csrf_exempt
 def get_channel_list(request):
 	response = {}	
 	all_channels = Channel.objects.all()
@@ -467,6 +477,7 @@ def get_channel_list(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
 # 添加喊麦
+@csrf_exempt
 def add_channel_interact(request):
 	response = {}	
 	channel_id = None
@@ -500,6 +511,7 @@ def add_channel_interact(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
 # 删除喊麦（离麦）
+@csrf_exempt
 def delete_channel_interact(request):
 	response = {}	
 
@@ -534,6 +546,7 @@ def delete_channel_interact(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
 # 用户进入直播间
+@csrf_exempt
 def add_channel_view_user(request):
 	response = {}	
 
@@ -582,6 +595,7 @@ def add_channel_view_user(request):
 
 
 # 用户离开直播间
+@csrf_exempt
 def delete_channel_view_user(request):
 	response = {}	
 
@@ -612,6 +626,7 @@ def delete_channel_view_user(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
 # 获取直播间人员列表
+@csrf_exempt
 def channel_user_list(request):
 	response = {}	
 
