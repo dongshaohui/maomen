@@ -88,11 +88,12 @@ def third_party(request):
 	new_user = None
 	new_tim_id = None
 	new_user_sig_id = None
-
+	new_user_sig = None
 	if len(users) > 0:
 		new_user = users[0]
 		new_tim_id = TencentCloudUsreInfo.objects.get(user=new_user).tim_id
 		new_user_sig_id = TencentCloudUsreInfo.objects.get(user=new_user).user_sig
+		new_user_sig = get_user_sig(new_user.id)
 	else:
 		# 创建新用户
 		new_user = User.objects.create(auth_type=auth_type,third_party_id=third_party_id,
