@@ -40,6 +40,7 @@ class Channel(models.Model):
 	cover = models.CharField(default='',verbose_name=u'频道封面',max_length=255) # 频道封面
 	audience_num = models.IntegerField(default=0,verbose_name=u'当前频道观看人数') # 当前频道观看人数
 	channel_status = models.IntegerField(default=0,verbose_name=u'频道状态') # 频道状态
+	last_access_time = models.DateTimeField(verbose_name=u'最近一次访问时间',default=timezone.now) # 最近一次访问时间
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
 

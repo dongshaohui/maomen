@@ -25,3 +25,5 @@ ApdVbXsTIs9Sgn7Rdqghx+OhRANCAARfepfnAwnPyCfpIeqttusbc2nMdWqXvH5Q
 	# 预留的频道数量
 	RESERVED_CHANNEL_NUMBER = 1000 # 测试
 	# RESERVED_CHANNEL_NUMBER = 3000 # 生产
+	
+	INACTIVE_SECONDS = 35 # 失效时间

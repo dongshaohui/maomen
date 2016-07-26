@@ -16,6 +16,7 @@ import random
 import hmac
 import hashlib
 import binascii
+import datetime
 import base64
 # Create your views here.
 
@@ -415,6 +416,9 @@ def get_audience_num(request):
 		channel_id = int(request.GET['channel_id'])	
 
 	current_channel = Channel.objects.get(channel_id=channel_id)		
+	current_channel.last_access_time = datetime.datetime.now()
+	current_channel.save()
+
 	response['status'] = 0
 	response['message'] = 'OK'		
 	response['data'] = {}
@@ -608,7 +612,17 @@ def channel_user_list(request):
 	
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
-
+# 客户端轮询
+def round_check(request):
+	response = {}
+	all_actice_channels = Channel.objects.filter(channel_status=1)
+	for activce_channel in all_actice_channels:
+		seconds = (datetime.datetime.now() - activce_channel.last_access_time).total_seconds()
+		if seconds > WxPayConf_pub.INACTIVE_SECONDS:
+			activce_channel.channel_status = 0 
+			activce_channel.save()
+	response['status'] = 0
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 def fetch_cos_sign(request):
 	response = {}
