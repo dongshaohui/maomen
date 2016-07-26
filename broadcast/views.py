@@ -12,6 +12,11 @@ import zlib
 import json
 import time
 import os,sys,commands
+import random
+import hmac
+import hashlib
+import binascii
+import base64
 # Create your views here.
 
 def get_user_sig(user_id):
