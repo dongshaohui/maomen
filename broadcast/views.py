@@ -602,3 +602,27 @@ def channel_user_list(request):
 		response['data'].append(temp_view_user_record)
 	
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
+
+
+
+def fetch_cos_sign(request):
+	response = {}
+	bucket = request.GET['bucket']
+
+	appid = 10054072                  # 替换为用户的appid
+	secret_id = u'AKIDgAHBtoaKNeazpseUJZbZ7auGbWFwA0Qt'.encode('utf-8')         # 替换为用户的secret_id
+	secret_key = u'8qasXJ7vqkcTDz3aaUmJsdoMtobXMJXQ'.encode('utf-8')         # 替换为用户的secret_key
+	
+	now = int(time.time())
+	expired = now + 300
+	rdm = random.randint(0, 999999999)
+	sign_tuple = (appid, secret_id, expired, now, rdm, bucket)
+
+	plain_text = 'a=%s&k=%s&e=%d&t=%d&r=%d&b=%s&f=' % sign_tuple
+	sha1_hmac   = hmac.new(secret_key, plain_text, hashlib.sha1)
+	hmac_digest = sha1_hmac.hexdigest()
+	hmac_digest = binascii.unhexlify(hmac_digest)
+	sign_hex    = hmac_digest + plain_text
+	sign_base64 = base64.b64encode(sign_hex)
+	response['sign'] = repr(sign_base64)
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")

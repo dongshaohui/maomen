@@ -35,6 +35,9 @@ urlpatterns = patterns('',
     url(r'^channel/user/delete','broadcast.views.delete_channel_view_user'),
     url(r'^channel/user/list','broadcast.views.channel_user_list'),
     
+
+    # sign
+    url(r'^log_serv/fetch_cos_sign','broadcast.views.fetch_cos_sign'),
     
     
 )	
