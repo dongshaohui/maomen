@@ -629,5 +629,5 @@ def fetch_cos_sign(request):
 	hmac_digest = binascii.unhexlify(hmac_digest)
 	sign_hex    = hmac_digest + plain_text
 	sign_base64 = base64.b64encode(sign_hex)
-	response['sign'] = repr(sign_base64)
+	response['sign'] = repr(sign_base64)[1:-1]
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
