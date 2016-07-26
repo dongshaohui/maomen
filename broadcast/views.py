@@ -613,7 +613,7 @@ def channel_user_list(request):
 def fetch_cos_sign(request):
 	response = {}
 	bucket = request.GET['bucket']
-
+	bucket = bucket.encode('utf-8')
 	appid = 10054072                  # 替换为用户的appid
 	secret_id = u'AKIDgAHBtoaKNeazpseUJZbZ7auGbWFwA0Qt'.encode('utf-8')         # 替换为用户的secret_id
 	secret_key = u'8qasXJ7vqkcTDz3aaUmJsdoMtobXMJXQ'.encode('utf-8')         # 替换为用户的secret_key
