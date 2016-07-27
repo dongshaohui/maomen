@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 
     # 礼物
     url(r'^gift/list','broadcast.views.gift_list'),
+    url(r'^gift/send','broadcast.views.send_gift'),
 
     # 用户信息
     url(r'^user/profile','broadcast.views.other_profile'),
