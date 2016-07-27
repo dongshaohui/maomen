@@ -68,6 +68,7 @@ class GiftRecord(models.Model):
 	from_user = models.ForeignKey(User,verbose_name=u'送礼用户',related_name='from_user',blank=True,null=True) # 送礼用户
 	to_user = models.ForeignKey(User,verbose_name=u'收礼用户',related_name='to_user',blank=True,null=True) # 收礼用户
 	number = models.IntegerField(verbose_name=u'送礼数量',default=1) # 送礼数量
+	price = models.FloatField(verbose_name=u'送礼钱数',default=0.0) # 送礼钱数
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
 

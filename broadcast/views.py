@@ -186,8 +186,13 @@ def send_gift(request):
 	current_gift = Gift.objects.get(id=gift_id)
 	current_from_user = User.objects.get(id=from_user)
 	current_to_user = User.objects.get(id=to_user)
+	current_from_account = Account.objects.get(user=current_from_user)
+	
+	current_from_account.amount = current_from_account.amount - current_gift.price * (float)(num)
+	current_from_account.save()
+
 	gift_record = GiftRecord.objects.create(gift=current_gift,from_user=current_from_user,
-		to_user=current_to_user,number=num)
+		to_user=current_to_user,number=num,price=current_gift.price * (float)(num))
 
 	response['status'] = 0
 	response['message'] = 'OK'
@@ -211,23 +216,23 @@ def other_profile(request):
 
 	current_user = User.objects.get(id=target_user_id)
 
-	received_gift_num = 0 # 收到礼物的数量
+	received_gift_price = 0.0 # 收到礼物的数量
 	recieved_gift_records = GiftRecord.objects.filter(to_user=current_user)
 	for recieved_gift_record in recieved_gift_records:
-		received_gift_num += recieved_gift_record.number
+		received_gift_price += recieved_gift_record.number * (float)(recieved_gift_record.price)
 
-	sent_gift_num = 0 # 送出礼物的数量
+	sent_gift_price = 0.0 # 送出礼物的数量
 	sent_gift_records = GiftRecord.objects.filter(from_user=current_user)
 	for sent_gift_record in sent_gift_records:
-		sent_gift_num += sent_gift_record.number
+		sent_gift_price += sent_gift_record.number * (float)(sent_gift_record.price)
 
 	response['status'] = 0
 	response['message'] = 'OK'	
 	response['data'] = {}
 	response['data']['avatar'] = current_user.avatar
 	response['data']['city'] = current_user.city
-	response['data']['received_gift_num'] = received_gift_num
-	response['data']['sent_gift_num'] = sent_gift_num
+	response['data']['received_gift_num'] = received_gift_price
+	response['data']['sent_gift_num'] = sent_gift_price
 	response['data']['user_id'] = current_user.id
 	response['data']['sex'] = current_user.sex
 	response['data']['name'] = current_user.name
