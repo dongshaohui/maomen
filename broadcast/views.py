@@ -219,12 +219,12 @@ def other_profile(request):
 	received_gift_price = 0.0 # 收到礼物的数量
 	recieved_gift_records = GiftRecord.objects.filter(to_user=current_user)
 	for recieved_gift_record in recieved_gift_records:
-		received_gift_price += recieved_gift_record.number * (float)(recieved_gift_record.price)
+		received_gift_price += (float)(recieved_gift_record.price)
 
 	sent_gift_price = 0.0 # 送出礼物的数量
 	sent_gift_records = GiftRecord.objects.filter(from_user=current_user)
 	for sent_gift_record in sent_gift_records:
-		sent_gift_price += sent_gift_record.number * (float)(sent_gift_record.price)
+		sent_gift_price += (float)(sent_gift_record.price)
 
 	response['status'] = 0
 	response['message'] = 'OK'	
@@ -253,12 +253,12 @@ def self_profile(request):
 	received_gift_price = 0.0 # 收到礼物的数量
 	recieved_gift_records = GiftRecord.objects.filter(to_user=current_user)
 	for recieved_gift_record in recieved_gift_records:
-		received_gift_price += recieved_gift_record.number * (float)(recieved_gift_record.price)
+		received_gift_price += (float)(recieved_gift_record.price)
 
 	sent_gift_price = 0.0 # 送出礼物的数量
 	sent_gift_records = GiftRecord.objects.filter(from_user=current_user)
 	for sent_gift_record in sent_gift_records:
-		sent_gift_price += sent_gift_record.number * (float)(sent_gift_record.price)
+		sent_gift_price += (float)(sent_gift_record.price)
 
 	response['status'] = 0
 	response['message'] = 'OK'	
