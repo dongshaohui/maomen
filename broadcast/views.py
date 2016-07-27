@@ -250,15 +250,15 @@ def self_profile(request):
 
 	current_user = User.objects.get(id=user_id)
 
-	received_gift_num = 0 # 收到礼物的数量
+	received_gift_price = 0.0 # 收到礼物的数量
 	recieved_gift_records = GiftRecord.objects.filter(to_user=current_user)
 	for recieved_gift_record in recieved_gift_records:
-		received_gift_num += recieved_gift_record.number
+		received_gift_price += recieved_gift_record.number * (float)(recieved_gift_record.price)
 
-	sent_gift_num = 0 # 送出礼物的数量
+	sent_gift_price = 0.0 # 送出礼物的数量
 	sent_gift_records = GiftRecord.objects.filter(from_user=current_user)
 	for sent_gift_record in sent_gift_records:
-		sent_gift_num += sent_gift_record.number
+		sent_gift_price += sent_gift_record.number * (float)(sent_gift_record.price)
 
 	response['status'] = 0
 	response['message'] = 'OK'	
@@ -266,8 +266,8 @@ def self_profile(request):
 	response['data']['user'] = {}
 	response['data']['user']['avatar'] = current_user.avatar
 	response['data']['user']['city'] = current_user.city
-	response['data']['user']['received_gift_num'] = received_gift_num
-	response['data']['user']['sent_gift_num'] = sent_gift_num
+	response['data']['user']['received_gift_num'] = received_gift_price
+	response['data']['user']['sent_gift_num'] = sent_gift_price
 	response['data']['user']['user_id'] = current_user.id
 	response['data']['user']['sex'] = current_user.sex
 	response['data']['user']['name'] = current_user.name
