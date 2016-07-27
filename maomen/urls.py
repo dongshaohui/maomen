@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^channel/create','broadcast.views.create_channel'),
     url(r'^channel/close','broadcast.views.close_channel'),
     url(r'^channel/channel_id','broadcast.views.get_next_broadcast_channel'),
+    url(r'^channel/info','broadcast.views.get_channel_info'),
     url(r'^channel/audience_num','broadcast.views.get_audience_num'),
     url(r'^channel/list','broadcast.views.get_channel_list'),
     url(r'^channel/interact/add','broadcast.views.add_channel_interact'),
@@ -35,6 +36,8 @@ urlpatterns = patterns('',
     url(r'^channel/user/delete','broadcast.views.delete_channel_view_user'),
     url(r'^channel/user/list','broadcast.views.channel_user_list'),
     
+
+
     # 客户端轮训
     url(r'^channel/client/round_check','broadcast.views.round_check'),
     # sign

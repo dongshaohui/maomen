@@ -404,6 +404,34 @@ def get_next_broadcast_channel(request):
 	response['data']['channel_id'] = next_broadcast_channel.channel_id
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")		
 
+
+# 获取频道信息
+def get_channel_info(request):
+	response = {}
+	channel_id = int(request.GET['channel_id'])
+	current_channel = Channel.objects.get(channel_id=channel_id)
+	response['status'] = 0
+	response['message'] = 'OK'	
+	response['data'] = {}	
+	response['data']['channel_info'] = {}
+	response['data']['channel_info']['audience_num'] = current_channel.audience_num
+
+	response['data']['interact'] = []
+	for interact_record in Interact.objects.filter(channel=current_channel):
+		temp_interact_record = {}
+		temp_interact_record['pos'] = interact_record.position
+		temp_interact_record_user = interact_record.user
+		temp_interact_record['user'] = {}
+		temp_interact_record['user']['city'] = temp_interact_record_user.city
+		temp_interact_record['user']['user_id'] = temp_interact_record_user.id
+		temp_interact_record['user']['avatar'] = temp_interact_record_user.avatar
+		temp_interact_record['user']['sex'] = temp_interact_record_user.sex
+		temp_interact_record['user']['name'] = temp_interact_record_user.name
+		temp_interact_record['user']['tim_id'] = TencentCloudUsreInfo.objects.get(user=temp_interact_record_user).tim_id
+
+		response['data']['interact'].append(temp_interact_record)
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")		
+
 # 获取房间当前直播人数
 @csrf_exempt
 def get_audience_num(request):

@@ -22,6 +22,7 @@ class User(models.Model):
 	sex = models.IntegerField(verbose_name=u'性别',default=1) # 性别 1-男 2-女
 	avatar = models.CharField(default='',verbose_name=u'头像',max_length=255) # 头像
 	city = models.CharField(default='',verbose_name=u'城市',max_length=255) # 城市
+	# device_tag = models.CharField(default='',verbose_name=u'设备号',max_length=255) # 设备号
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
 
