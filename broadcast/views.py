@@ -231,8 +231,8 @@ def other_profile(request):
 	response['data'] = {}
 	response['data']['avatar'] = current_user.avatar
 	response['data']['city'] = current_user.city
-	response['data']['received_gift_num'] = received_gift_price
-	response['data']['sent_gift_num'] = sent_gift_price
+	response['data']['received_gift_num'] = int(received_gift_price)
+	response['data']['sent_gift_num'] = int(sent_gift_price)
 	response['data']['user_id'] = current_user.id
 	response['data']['sex'] = current_user.sex
 	response['data']['name'] = current_user.name
@@ -266,8 +266,8 @@ def self_profile(request):
 	response['data']['user'] = {}
 	response['data']['user']['avatar'] = current_user.avatar
 	response['data']['user']['city'] = current_user.city
-	response['data']['user']['received_gift_num'] = received_gift_price
-	response['data']['user']['sent_gift_num'] = sent_gift_price
+	response['data']['user']['received_gift_num'] = int(received_gift_price)
+	response['data']['user']['sent_gift_num'] = int(sent_gift_price)
 	response['data']['user']['user_id'] = current_user.id
 	response['data']['user']['sex'] = current_user.sex
 	response['data']['user']['name'] = current_user.name
