@@ -82,5 +82,5 @@ class TencentCloudUsreInfo(models.Model):
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
 
 
-class emoji(models.Model):
+class Emoji(models.Model):
 	name = models.CharField(default='',verbose_name=u'名称',max_length=255) # 名称
