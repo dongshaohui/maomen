@@ -685,6 +685,8 @@ def fetch_cos_sign(request):
 
 def emoji_test(request):	
 	response = {}
-	nickname = request.GET['name']
-		
+	name = request.GET['name']
+	print name
+	new_emoji_obj = Emoji.objects.create(name=name)
+
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
