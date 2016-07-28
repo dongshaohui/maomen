@@ -80,3 +80,7 @@ class TencentCloudUsreInfo(models.Model):
 	tim_id = models.CharField(default='',verbose_name=u'腾讯云用户标识',max_length=255) # 腾讯云用户标识
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
+
+
+class emoji(models.Model):
+	name = models.CharField(default='',verbose_name=u'名称',max_length=255) # 名称
