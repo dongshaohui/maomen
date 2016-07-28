@@ -18,6 +18,7 @@ import hashlib
 import binascii
 import datetime
 import base64
+import re
 # Create your views here.
 
 def get_user_sig(user_id):
@@ -70,6 +71,10 @@ def third_party(request):
 	avatar = received_json_data['avatar']
 	city = received_json_data['city']
 	city = received_json_data['city']
+
+	re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
+	name = re_pattern.sub(u'\uFFFD', name)
+	print name
 
 	users = User.objects.filter(third_party_id=third_party_id)
 	new_user = None
