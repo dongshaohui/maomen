@@ -74,7 +74,6 @@ def third_party(request):
 
 	re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
 	name = re_pattern.sub(u'\uFFFD', name)
-	print name
 
 	users = User.objects.filter(third_party_id=third_party_id)
 	new_user = None
@@ -682,4 +681,10 @@ def fetch_cos_sign(request):
 	sign_hex    = hmac_digest + plain_text
 	sign_base64 = base64.b64encode(sign_hex)
 	response['sign'] = repr(sign_base64)[1:-1]
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
+
+def emoji_test(request):	
+	response = {}
+	nickname = request.GET['name']
+		
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")

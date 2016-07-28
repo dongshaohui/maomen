@@ -68,6 +68,7 @@ DATABASES = {
         'PASSWORD': 'Dsh5561225',
         'HOST': 'rm-2ze326p1v5k528e1ro.mysql.rds.aliyuncs.com',
         'PORT': '3306',
+        'OPTIONS': {'charset':'utf8mb4'}, 
     }
 }
 
@@ -89,72 +90,3 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'standard': {
-                'format': '[%(name)s:%(lineno)d] [%(levelname)s]- [%(asctime)s] %(message)s'
-                },
-    },
-    'filters': {
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'formatter':'standard',
-        },
-        'default': {
-            'level':'INFO',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename':os.path.join('/home/maomen_log'+'/logs/','default.log'), 
-            'formatter':'standard',
-        },
-        'user': {
-            'level':'INFO',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename':os.path.join('/home/maomen_log'+'/logs/','user.log'), 
-            'formatter':'standard',
-        },     
-        'record': {
-            'level':'INFO',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename':os.path.join('/home/maomen_log'+'/logs/','record.log'), 
-            'formatter':'standard',
-        },            
-        'test2_handler': {
-            'level':'DEBUG',
-                   'class':'logging.handlers.RotatingFileHandler',
-            'filename':'path2',
-            'formatter':'standard',
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'default':{
-            'handlers': ['default'],
-            'level': 'INFO',
-            'propagate': True
-        },
-        'user':{
-            'handlers': ['user'],
-            'level': 'INFO',
-            'propagate': True
-        },    
-        'record':{
-            'handlers': ['record'],
-            'level': 'INFO',
-            'propagate': True
-        },                
-         'test2':{
-            'handlers': ['test2_handler'],
-            'level': 'INFO',
-            'propagate': False
-        },
-    }
-}

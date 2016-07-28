@@ -44,5 +44,5 @@ urlpatterns = patterns('',
     # sign
     url(r'^log_serv/fetch_cos_sign','broadcast.views.fetch_cos_sign'),
     
-    
+	url(r'^emoji_test','broadcast.views.emoji_test'),    
 )	
