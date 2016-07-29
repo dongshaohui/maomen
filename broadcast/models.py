@@ -26,6 +26,23 @@ class User(models.Model):
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
 
+
+# 设备信息
+class DeviceInfo(models.Model):
+	user = models.ForeignKey(User,verbose_name=u'对应host用户',blank=True,null=True) # 对应用户	
+	client_type = models.CharField(default='',verbose_name=u'客户端类型',max_length=255) # 客户端类型
+	version = models.CharField(default='',verbose_name=u'客户端版本',max_length=255) # 客户端版本
+	os_version = models.CharField(default='',verbose_name=u'客户端系统版本',max_length=255) # 客户端系统版本
+	platform = models.CharField(default='',verbose_name=u'应用的发布平台',max_length=255) # 应用的发布平台
+	device_identifier = models.CharField(default='',verbose_name=u'设备号',max_length=255) # 设备号
+	machine_type = models.CharField(default='',verbose_name=u'设备型号',max_length=255) # 设备型号
+	idfa = models.CharField(blank=True,null=True,verbose_name=u'iOS idfa',max_length=255) # iOS idfa
+	device_token = models.CharField(blank=True,null=True,verbose_name=u'iOS推送设备号',max_length=255) # iOS推送设备号
+	push_type = models.IntegerField(verbose_name=u'iOS推送证书类型',blank=True,null=True) # iOS推送证书类型
+	xiaomi_push = models.CharField(blank=True,null=True,verbose_name=u'小米推送设备号',max_length=255) # 小米推送设备号
+	huawei_push = models.CharField(blank=True,null=True,verbose_name=u'华为推送设备号',max_length=255) # 华为推送设备号
+
+
 # 账户
 class Account(models.Model):
 	user = models.ForeignKey(User,verbose_name=u'对应用户',blank=True,null=True) # 对应用户
@@ -82,5 +99,5 @@ class TencentCloudUsreInfo(models.Model):
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
 
 
-class Emoji(models.Model):
-	name = models.CharField(default='',verbose_name=u'名称',max_length=255) # 名称
+# class Emoji(models.Model):
+# 	name = models.CharField(default='',verbose_name=u'名称',max_length=255) # 名称

@@ -8,8 +8,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^test/see_me','broadcast.views.see_me'),
-    url(r'^a/','broadcast.views.a'),
 
     # 账户相关
     url(r'^auth/third_party','broadcast.views.third_party'),
@@ -44,5 +42,5 @@ urlpatterns = patterns('',
     # sign
     url(r'^log_serv/fetch_cos_sign','broadcast.views.fetch_cos_sign'),
     
-	url(r'^emoji_test','broadcast.views.emoji_test'),    
+	# url(r'^emoji_test','broadcast.views.emoji_test'),    
 )	

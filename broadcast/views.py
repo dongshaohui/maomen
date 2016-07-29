@@ -27,25 +27,11 @@ def get_user_sig(user_id):
 	sig_record_file_name = "sig_record_file_%s" % sig_user_id
 	commands.getoutput("rm -rf %s" % sig_record_file_name)
 	comds = current_path+"/tls_licence_tools gen ec_key.pem %s %d %s" % (sig_record_file_name,WxPayConf_pub.SDK_APPID,sig_user_id)
-	print comds
+	# print comds
 	commands.getoutput(current_path+"/tls_licence_tools gen ec_key.pem %s %d %s" % (sig_record_file_name,WxPayConf_pub.SDK_APPID,sig_user_id))
 	result = commands.getoutput("cat %s" % sig_record_file_name )
 	commands.getoutput("rm -rf %s" % sig_record_file_name)
 	return result
-
-def see_me(request):
-	response = {}
-	result = get_user_sig(5)
-	print result
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
-
-def a(request):
-	response = {}
-	api = TLSSigAPI(WxPayConf_pub.SDK_APPID, WxPayConf_pub.ECDSA_PRI_KEY)
-	# # api = TLSSigAPI(WxPayConf_pub.SDK_APPID, WxPayConf_pub.ECDSA_PRI_KEY)
-	sig = api.tls_gen_sig("xiaojun")
-	# print sig
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2))
 
 ###########################################
 #
@@ -70,10 +56,10 @@ def third_party(request):
 	sex = received_json_data['sex']
 	avatar = received_json_data['avatar']
 	city = received_json_data['city']
-	city = received_json_data['city']
+	# city = received_json_data['city']
 
-	re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
-	name = re_pattern.sub(u'\uFFFD', name)
+	# re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
+	# name = re_pattern.sub(u'\uFFFD', name)
 
 	users = User.objects.filter(third_party_id=third_party_id)
 	new_user = None
