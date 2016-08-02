@@ -14,6 +14,14 @@ class Gift(models.Model):
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
 
+# 充值项目
+class Item(models.Model):
+	money = models.FloatField(verbose_name=u'金额',default=0.0) # 充值金额
+	momentMoney = models.FloatField(verbose_name=u'虚拟金额',default=0.0) # 虚拟金额
+	note = models.CharField(default='',verbose_name=u'名称',max_length=255) # 描述
+	IAPId = models.CharField(blank=True,null=True,verbose_name=u'IAPId',max_length=255) # IAPId
+
+
 # 用户
 class User(models.Model):
 	auth_type = models.CharField(default='',verbose_name=u'第三方账号类型',max_length=255) # 	第三方账号类型
@@ -25,7 +33,6 @@ class User(models.Model):
 	# device_tag = models.CharField(default='',verbose_name=u'设备号',max_length=255) # 设备号
 	create_time = models.DateTimeField(verbose_name=u'创建时间',default=timezone.now)
 	update_time = models.DateTimeField(verbose_name=u'修改时间',default=timezone.now,auto_now=True)	
-
 
 # 设备信息
 class DeviceInfo(models.Model):
@@ -41,7 +48,6 @@ class DeviceInfo(models.Model):
 	push_type = models.IntegerField(verbose_name=u'iOS推送证书类型',blank=True,null=True) # iOS推送证书类型
 	xiaomi_push = models.CharField(blank=True,null=True,verbose_name=u'小米推送设备号',max_length=255) # 小米推送设备号
 	huawei_push = models.CharField(blank=True,null=True,verbose_name=u'华为推送设备号',max_length=255) # 华为推送设备号
-
 
 # 账户
 class Account(models.Model):

@@ -27,3 +27,11 @@ ApdVbXsTIs9Sgn7Rdqghx+OhRANCAARfepfnAwnPyCfpIeqttusbc2nMdWqXvH5Q
 	# RESERVED_CHANNEL_NUMBER = 3000 # 生产
 	
 	INACTIVE_SECONDS = 35 # 失效时间(秒)
+	
+	XIAOMI_PUSH_APP_SECRET = "X9tp+blGzOR7DVO73gfngg=="
+	XIAOMI_PACKAGE_NAME = "com.zhelitech.moment"
+
+	# umeng推送
+	UPUSH_APP_KEY = "579f0ba067e58ed741000ab6"
+	UPUSH_MASTER_SECRET = "qqbqnf4nqnk9trv1iybejj20xve4o6pf"
+	

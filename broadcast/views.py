@@ -19,6 +19,9 @@ import binascii
 import datetime
 import base64
 import re
+import urllib2
+import requests
+import hashlib
 # Create your views here.
 
 def get_user_sig(user_id):
@@ -635,6 +638,165 @@ def channel_user_list(request):
 	
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
+
+# 应用类
+
+# 
+@csrf_exempt
+def minimize_start(request):
+	response = {}
+	received_json_data = json.loads(request.body)
+	user_id = int(received_json_data['user_id'])
+	client_type = received_json_data['client_type']
+	version = received_json_data['version']
+	OS_version = received_json_data['OS_version']
+	platform = received_json_data['platform']
+	device_identifier = received_json_data['device_identifier']
+	machine_type = received_json_data['machine_type']
+	
+	idfa = None
+	if 'idfa' in received_json_data:
+		idfa = received_json_data['idfa']
+	
+	device_token = None
+	if 'device_token' in received_json_data:
+		device_token = received_json_data['device_token']
+
+	push_type = None
+	if 'push_type' in received_json_data:
+		push_type = int(received_json_data['push_type'])
+
+	xiaomi_push = None
+	if 'xiaomi_push' in received_json_data:
+		xiaomi_push = received_json_data['xiaomi_push']
+
+	huawei_push = None
+	if 'huawei_push' in received_json_data:
+		huawei_push = received_json_data['huawei_push']
+
+	current_user = User.objects.get(id=user_id)
+	DeviceInfo.objects.create(user=current_user,client_type=client_type,version=version,
+		os_version=OS_version,platform=platform,device_identifier=device_identifier,
+		machine_type=machine_type,idfa=idfa,device_token=device_token,push_type=push_type,
+		xiaomi_push=xiaomi_push,huawei_push=huawei_push)
+	response['status'] = 0
+	response['message'] = 'OK'	
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
+
+# device_token上报服务器
+@csrf_exempt
+def update_device_token(request):
+	response = {}
+	received_json_data = json.loads(request.body)
+
+	user_id = int(received_json_data['user_id'])
+	device_token = received_json_data['device_token']
+	push_type = int(received_json_data['push_type'])
+
+	current_user = User.objects.get(id=user_id)
+	current_device_info = DeviceInfo.objects.get(user=current_user)
+	current_device_info.device_token = device_token
+	current_device_info.push_type = push_type
+	current_device_info.save()
+
+	response['status'] = 0
+	response['message'] = 'OK'
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
+
+# 小米推送
+@csrf_exempt
+def xiaomi_message_push(request):
+	response = {}
+	received_json_data = json.loads(request.body)
+	message = received_json_data['payload']
+	package_name = received_json_data['restricted_package_name']
+	pass_through = 0
+	if 'pass_through' in received_json_data:
+		pass_through = int(received_json_data['pass_through'])
+	title = received_json_data['title']
+	description = received_json_data['description']
+	notify_type = -1
+	if 'notify_type' in received_json_data:
+		notify_type = int(received_json_data['notify_type'])
+	key = WxPayConf_pub.XIAOMI_PUSH_APP_SECRET
+	# import urllib2
+	# 发起post请求
+	params = {}
+	headers = {"Authorization":"key=%s" % key}
+	params['payload'] = message
+	params['restricted_package_name'] = WxPayConf_pub.XIAOMI_PACKAGE_NAME
+	params['pass_through'] = 0
+	params['title'] = title
+	params['description'] = description
+	params['notify_type'] = notify_type
+
+	response = requests.post("https://api.xmpush.xiaomi.com/v3/message/all",headers=headers,params=params)
+
+	response['status'] = 0
+	response['message'] = 'OK'	
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
+
+
+
+# 友盟消息推送
+@csrf_exempt
+def upush_message(request):
+	response = {}
+
+	app_key = WxPayConf_pub.UPUSH_APP_KEY
+	app_secret = WxPayConf_pub.UPUSH_MASTER_SECRET
+	timestamp = str(time.time())[:10]
+	url = 'http://msg.umeng.com/api/send'
+	method = "POST"
+	app_master_secret = WxPayConf_pub.UPUSH_MASTER_SECRET
+
+	timestamp = int(time.time() * 1000 )
+	method = 'POST'
+	url = 'http://msg.umeng.com/api/send'
+	params = {'appkey': app_key,
+	          'timestamp': timestamp,
+	          'type': 'broadcast',
+	          'payload': {'body': {'ticker': 'Hello World',
+	                               'title':'你好',
+	                               'text':'来自友盟推送',
+	                               'after_open': 'go_app'},
+	                      'aps' : {'alert':'test'
+	                      },
+	                      'display_type': 'notification'
+	          }
+	}
+	post_body = json.dumps(params)
+	sign = md5('%s%s%s%s' % (method,url,post_body,app_master_secret))
+	try:
+	    r = urllib2.urlopen(url + '?sign='+sign, data=post_body)
+	    print r.read()
+	except urllib2.HTTPError,e:
+	    print e.reason,e.read()
+	except urllib2.URLError,e:
+	    print e.reason
+	response['status'] = 0
+	response['message'] = 'OK'	
+	print response
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
+
+
+# 苹果支付验证凭证
+@csrf_exempt
+def validate_receipt(request):
+	response = {}
+	received_json_data = json.loads(request.body)
+	
+	response['status'] = 0
+	response['message'] = 'OK'	
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
+
+
+
+# 生成友盟签名
+def generate_upush_sign(param_body,url,method,app_master_secret):
+	sign = md5('%s%s%s%s' % (method,url,param_body,app_master_secret))
+	return sign
+
 # 客户端轮询
 def round_check(request):
 	response = {}
@@ -668,6 +830,12 @@ def fetch_cos_sign(request):
 	sign_base64 = base64.b64encode(sign_hex)
 	response['sign'] = repr(sign_base64)[1:-1]
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
+
+def md5(s):
+    m = hashlib.md5(s)
+    return m.hexdigest()
+
+
 
 def emoji_test(request):	
 	response = {}

@@ -35,8 +35,12 @@ urlpatterns = patterns('',
     url(r'^channel/user/delete','broadcast.views.delete_channel_view_user'),
     url(r'^channel/user/list','broadcast.views.channel_user_list'),
     
-
-
+    # 应用类
+    url(r'^app/minimize_start','broadcast.views.minimize_start'),
+    url(r'^app/update_device_token','broadcast.views.update_device_token'),
+   	url(r'^app/xiaomi_message_push','broadcast.views.xiaomi_message_push'), # 小米推送
+   	url(r'^app/ios_push/upush_message','broadcast.views.upush_message'), # 友盟推送
+   	url(r'^wallet/validate_receipt','broadcast.views.validate_receipt'), # ios验证凭证
     # 客户端轮训
     url(r'^channel/client/round_check','broadcast.views.round_check'),
     # sign
