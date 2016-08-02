@@ -791,7 +791,8 @@ def top_up_items(request):
 		temp_item_data['money'] = item.money
 		temp_item_data['momentMoney'] = item.momentMoney
 		if item.note:
-			temp_item_data['note'] = item.note.encode('utf-8')
+			temp_item_data['note'] = item.note
+			# temp_item_data['note'] = temp_item_data['note'].decode('utf-8')
 		temp_item_data['itemId'] = item.id
 		response['data'].append(temp_item_data)
 	response['status'] = 0
