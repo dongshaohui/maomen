@@ -779,6 +779,24 @@ def upush_message(request):
 	print response
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
 
+# 获取充值项目列表
+def top_up_items(request):
+	response = {}
+	all_items = Item.objects.all()
+	response['data'] = []
+	for item in all_items:
+		temp_item_data = {}
+		if item.IAPId:
+			temp_item_data['IAPId'] = item.IAPId
+		temp_item_data['money'] = item.money
+		temp_item_data['momentMoney'] = item.momentMoney
+		if item.note:
+			temp_item_data['note'] = item.note
+		temp_item_data['itemId'] = item.id
+		response['data'].append(temp_item_data)
+	response['status'] = 0
+	response['message'] = 'OK'	
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")		
 
 # 苹果支付验证凭证
 @csrf_exempt

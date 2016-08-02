@@ -40,6 +40,8 @@ urlpatterns = patterns('',
     url(r'^app/update_device_token','broadcast.views.update_device_token'),
    	url(r'^app/xiaomi_message_push','broadcast.views.xiaomi_message_push'), # 小米推送
    	url(r'^app/ios_push/upush_message','broadcast.views.upush_message'), # 友盟推送
+
+	url(r'^wallet/top_up_items','broadcast.views.top_up_items'),
    	url(r'^wallet/validate_receipt','broadcast.views.validate_receipt'), # ios验证凭证
     # 客户端轮训
     url(r'^channel/client/round_check','broadcast.views.round_check'),
