@@ -785,7 +785,14 @@ def upush_message(request):
 def validate_receipt(request):
 	response = {}
 	received_json_data = json.loads(request.body)
+	user_id = int(received_json_data['user_id'])
+	receipt_data = received_json_data['receiptdata']
+	itemId = int(received_json_data['itemId'])
+	IAPId = received_json_data['IAPId']
+	money = float(received_json_data['money'])
+	momentMoney = float(received_json_data['momentMoney'])
 	
+
 	response['status'] = 0
 	response['message'] = 'OK'	
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
