@@ -410,7 +410,11 @@ def get_channel_info(request):
 	response['data'] = {}	
 	response['data']['channel_info'] = {}
 	response['data']['channel_info']['audience_num'] = current_channel.audience_num
-
+	response['data']['channel_info']['title'] = current_channel.title
+	response['data']['channel_info']['cover'] = current_channel.cover
+	response['data']['channel_info']['channel_id'] = current_channel.id
+	response['data']['channel_info']['status'] = current_channel.channel_status
+	# response['data']['channel_info']['create_time']
 	response['data']['interact'] = []
 	for interact_record in Interact.objects.filter(channel=current_channel):
 		temp_interact_record = {}
