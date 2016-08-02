@@ -801,7 +801,7 @@ def top_up_items(request):
 
 # 苹果支付验证凭证
 @csrf_exempt
-def validate_receipt(request):
+def confirm_receipt(request):
 	response = {}
 	received_json_data = json.loads(request.body)
 	user_id = int(received_json_data['user_id'])
@@ -811,15 +811,10 @@ def validate_receipt(request):
 	money = float(received_json_data['money'])
 	momentMoney = float(received_json_data['momentMoney'])
 
-	product_url = "https://buy.itunes.apple.com/verifyReceipt"
-	sandbox_url = "https://sandbox.itunes.apple.com/verifyReceipt"
+	receipt_data_md5 = hashlib.md5(receipt_data).hexdigest()
 
-	params = {}
-	params['receipt-data'] = receipt_data
-	r_product = requests.post(product_url,params=params)
-	r_test = requests.post(sandbox_url,params=params)
-	print r_product,r_product.text
-	print r_test,r_test.text
+	# 记录凭证记录
+	AppleReceipt.objects.create(receipt_md5=receipt_data_md5)
 
 	current_user = User.objects.get(id=user_id)
 	current_item = Item.objects.get(id=itemId)
@@ -827,6 +822,10 @@ def validate_receipt(request):
 	# 记入购买item历史
 	RechargeHistory.objects.create(user=current_user,item=current_item)
 
+	# 更新账户金额
+	current_account = Account.objects.get(user=current_user)
+	current_account.amount += momentMoney
+	current_account.save()
 
 	response['status'] = 0
 	response['message'] = 'OK'	
@@ -834,10 +833,17 @@ def validate_receipt(request):
 
 # 查看凭证是否有记录
 def check_receipt(request):
-	response['status'] = 0
-	response['message'] = 'OK'	
+	response = {}
+	received_json_data = json.loads(request.body)
+	receipt_data = received_json_data['receiptData']
+	receipt_data_md5 = hashlib.md5(receipt_data).hexdigest()
+	if len(AppleReceipt.objects.filter(receipt_md5=receipt_data_md5)) == 0:
+		response['status'] = 0
+		response['message'] = 'OK'
+	else:
+		response['status'] = -1
+		response['message'] = 'Receipt Data Exist!'
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
-
 
 # 生成友盟签名
 def generate_upush_sign(param_body,url,method,app_master_secret):

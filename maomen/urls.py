@@ -42,7 +42,7 @@ urlpatterns = patterns('',
    	url(r'^app/ios_push/upush_message','broadcast.views.upush_message'), # 友盟推送
 
 	url(r'^wallet/top_up_items','broadcast.views.top_up_items'),
-   	url(r'^wallet/validate_receipt','broadcast.views.validate_receipt'), # ios验证凭证
+   	url(r'^wallet/confirm_receipt','broadcast.views.confirm_receipt'), # ios验证凭证
    	url(r'^wallet/check_receipt','broadcast.views.check_receipt')
     # 客户端轮训
     url(r'^channel/client/round_check','broadcast.views.round_check'),
