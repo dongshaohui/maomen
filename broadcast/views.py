@@ -647,7 +647,9 @@ def channel_user_list(request):
 def minimize_start(request):
 	response = {}
 	received_json_data = json.loads(request.body)
-	user_id = int(received_json_data['user_id'])
+	user_id = None
+	if 'user_id' in received_json_data:
+		user_id = int(received_json_data['user_id'])
 	client_type = received_json_data['client_type']
 	version = received_json_data['version']
 	OS_version = received_json_data['OS_version']
@@ -674,14 +676,25 @@ def minimize_start(request):
 	huawei_push = None
 	if 'huawei_push' in received_json_data:
 		huawei_push = received_json_data['huawei_push']
+	current_user = None
+	if user_id:
+		current_user = User.objects.get(id=user_id)
 
-	current_user = User.objects.get(id=user_id)
-	DeviceInfo.objects.create(user=current_user,client_type=client_type,version=version,
-		os_version=OS_version,platform=platform,device_identifier=device_identifier,
-		machine_type=machine_type,idfa=idfa,device_token=device_token,push_type=push_type,
-		xiaomi_push=xiaomi_push,huawei_push=huawei_push)
 	response['status'] = 0
 	response['message'] = 'OK'	
+
+	if len(DeviceInfo.objects.filter(device_identifier=device_identifier) == 0):
+		if current_user:
+			DeviceInfo.objects.create(user=current_user,client_type=client_type,version=version,
+				os_version=OS_version,platform=platform,device_identifier=device_identifier,
+				machine_type=machine_type,idfa=idfa,device_token=device_token,push_type=push_type,
+				xiaomi_push=xiaomi_push,huawei_push=huawei_push)
+		else:
+			DeviceInfo.objects.create(client_type=client_type,version=version,
+				os_version=OS_version,platform=platform,device_identifier=device_identifier,
+				machine_type=machine_type,idfa=idfa,device_token=device_token,push_type=push_type,
+				xiaomi_push=xiaomi_push,huawei_push=huawei_push)		
+
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
 
 # device_token上报服务器
