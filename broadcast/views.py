@@ -804,8 +804,8 @@ def confirm_receipt(request):
 	user_id = int(received_json_data['user_id'])
 	receipt_data = received_json_data['receiptData']
 	itemId = int(received_json_data['itemId'])
-	IAPId = received_json_data['IAPId']
-	money = float(received_json_data['money'])
+	# IAPId = received_json_data['IAPId']
+	# money = float(received_json_data['money'])
 	momentMoney = float(received_json_data['momentMoney'])
 
 	receipt_data_md5 = hashlib.md5(receipt_data).hexdigest()
