@@ -28,6 +28,7 @@ ApdVbXsTIs9Sgn7Rdqghx+OhRANCAARfepfnAwnPyCfpIeqttusbc2nMdWqXvH5Q
 	
 	INACTIVE_SECONDS = 35 # 失效时间(秒)
 	
+	# 小米推送
 	XIAOMI_PUSH_APP_SECRET = "X9tp+blGzOR7DVO73gfngg=="
 	XIAOMI_PACKAGE_NAME = "com.zhelitech.moment"
 

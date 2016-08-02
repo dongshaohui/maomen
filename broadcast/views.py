@@ -14,14 +14,11 @@ import time
 import os,sys,commands
 import random
 import hmac
-import hashlib
+import hashlib,urllib2,requests
 import binascii
 import datetime
 import base64
 import re
-import urllib2
-import requests
-import hashlib
 # Create your views here.
 
 def get_user_sig(user_id):
@@ -832,6 +829,7 @@ def confirm_receipt(request):
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
 
 # 查看凭证是否有记录
+@csrf_exempt
 def check_receipt(request):
 	response = {}
 	received_json_data = json.loads(request.body)
@@ -887,13 +885,3 @@ def fetch_cos_sign(request):
 def md5(s):
     m = hashlib.md5(s)
     return m.hexdigest()
-
-
-
-def emoji_test(request):	
-	response = {}
-	name = request.GET['name']
-	print name
-	new_emoji_obj = Emoji.objects.create(name=name)
-
-	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")
