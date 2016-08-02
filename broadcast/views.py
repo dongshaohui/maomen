@@ -821,10 +821,22 @@ def validate_receipt(request):
 	print r_product,r_product.text
 	print r_test,r_test.text
 
+	current_user = User.objects.get(id=user_id)
+	current_item = Item.objects.get(id=itemId)
+
+	# 记入购买item历史
+	RechargeHistory.objects.create(user=current_user,item=current_item)
+
+
 	response['status'] = 0
 	response['message'] = 'OK'	
 	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
 
+# 查看凭证是否有记录
+def check_receipt(request):
+	response['status'] = 0
+	response['message'] = 'OK'	
+	return HttpResponse(json.dumps(response,ensure_ascii=False,indent=2),content_type="application/json")	
 
 
 # 生成友盟签名

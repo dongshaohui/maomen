@@ -26,6 +26,10 @@ class RechargeHistory(models.Model):
 	user = models.ForeignKey(User,verbose_name=u'对应用户',blank=True,null=True) # 对应用户	
 	item = models.ForeignKey(Item,verbose_name=u'对应项目',blank=True,null=True) # 对应项目
 
+# 苹果充值凭证记录
+class AppleReceipt(models.Model):
+	receipt_md5 = models.CharField(default='',verbose_name=u'凭证的md5',max_length=255) # 凭证的md5
+
 # 用户
 class User(models.Model):
 	auth_type = models.CharField(default='',verbose_name=u'第三方账号类型',max_length=255) # 	第三方账号类型
