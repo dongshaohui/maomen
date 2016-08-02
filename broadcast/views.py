@@ -786,12 +786,21 @@ def validate_receipt(request):
 	response = {}
 	received_json_data = json.loads(request.body)
 	user_id = int(received_json_data['user_id'])
-	receipt_data = received_json_data['receiptdata']
+	receipt_data = received_json_data['receiptData']
 	itemId = int(received_json_data['itemId'])
 	IAPId = received_json_data['IAPId']
 	money = float(received_json_data['money'])
 	momentMoney = float(received_json_data['momentMoney'])
-	
+
+	product_url = "https://buy.itunes.apple.com/verifyReceipt"
+	sandbox_url = "https://sandbox.itunes.apple.com/verifyReceipt"
+
+	params = {}
+	params['receipt-data'] = receipt_data
+	r_product = requests.post(product_url,params=params)
+	r_test = requests.post(sandbox_url,params=params)
+	print r_product,r_product.text
+	print r_test,r_test.text
 
 	response['status'] = 0
 	response['message'] = 'OK'	
