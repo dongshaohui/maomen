@@ -683,7 +683,7 @@ def minimize_start(request):
 	response['status'] = 0
 	response['message'] = 'OK'	
 
-	if len(DeviceInfo.objects.filter(device_identifier=device_identifier) == 0):
+	if len(DeviceInfo.objects.filter(device_identifier=device_identifier)) == 0:
 		if current_user:
 			DeviceInfo.objects.create(user=current_user,client_type=client_type,version=version,
 				os_version=OS_version,platform=platform,device_identifier=device_identifier,
